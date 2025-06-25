@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DebateMate API Test</title>
+</head>
+<body>
+  <h2>DebateMate API Test</h2>
+  <form id="debateForm">
+    <label>Topic: <input type="text" id="topic" value="climate change"></label><br>
+    <label>Stance: <input type="text" id="stance" value="it is caused by human activity"></label><br>
+    <button type="submit">Generate Argument</button>
+  </form>
+
+  <h3>AI Response:</h3>
+  <pre id="result"></pre>
+
+  <script>
+    document.getElementById("debateForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const topic = document.getElementById("topic").value;
+      const stance = document.getElementById("stance").value;
+
+      const res = await fetch("https://cashewjelly2665.pythonanywhere.com/debate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ topic, stance })
+      });
+
+      const data = await res.json();
+      document.getElementById("result").textContent = data.argument || "Error: No response";
+    };
+  </script>
+</body>
+</html>
